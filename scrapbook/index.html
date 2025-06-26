@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Our Colorful Love Story</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Juice ITC", cursive;
+      overflow: hidden;
+      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+    }
+    h1 {
+       font-family: "Engravers MT", serif;
+      text-align: center;
+      color: #030d2e;
+      padding: 20px 10px 10px;
+      font-size: 3em;
+      text-shadow: 0 0 15px #ffb3cc;
+      margin: 0;
+      z-index: 999;
+      position: relative;
+    }
+    .click-hint {
+      text-align: center;
+      color: #373535;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+    .book {
+      position: relative;
+      width: 90vw;
+      max-width: 960px;
+      height: 80vh;
+      margin: 0 auto;
+      perspective: 2000px;
+      transform-style: preserve-3d;
+      overflow: visible;
+    }
+    .page {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      transform-origin: left center;
+      transition: transform 1s ease;
+      backface-visibility: hidden;
+      z-index: 100;
+      background-size: 30px 30px;
+      background-image:
+        linear-gradient(to right, rgba(255,255,255,0.1) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.1) 1px, transparent 1px);
+    }
+    .page.flipped {
+      transform: rotateY(-180deg);
+      z-index: 0 !important;
+    }
+    .page-content {
+      padding: 25px;
+      animation: fadeSlide 1.2s ease forwards;
+      color: #100101;
+      text-align: center;
+    }
+    .image-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 15px;
+    }
+    .image-row img {
+      width: 45%;
+      max-height: 200px;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(255,255,255,0.3);
+    }
+    .page h2 {
+      font-size: 2.0em;
+      margin-top: 0;
+      text-shadow: 0 0 5px rgba(255,255,255,0.5);
+    }
+    .page p {
+      font-size: 1.1em;
+    }
+    .music-control {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #ff3366;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 0 10px #ff6699;
+      z-index: 999;
+    }
+    .left-half, .right-half {
+      position: fixed;
+      top: 0;
+      width: 50%;
+      height: 100%;
+      z-index: 10;
+    }
+    .left-half { left: 0; }
+    .right-half { right: 0; }
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .spiral {
+      position: absolute;
+      left: 20%;
+      top: 100px;
+      width: 12px;
+      height: calc(100% - 100px);
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      z-index: 20;
+    }
+    .spiral-hole {
+      width: 10px;
+      height: 10px;
+      background: #444;
+      border-radius: 50%;
+      box-shadow: inset 0 0 4px rgba(255,255,255,0.5);
+    }
+    .heart {
+      position: fixed;
+      width: 15px;
+      height: 15px;
+      background: #ff4d4d;
+      transform: rotate(45deg);
+      animation: float 10s linear infinite;
+      z-index: 0;
+    }
+    .heart::before,
+    .heart::after {
+      content: '';
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      background: #520909;
+      border-radius: 50%;
+    }
+    .heart::before { top: -7.5px; left: 0; }
+    .heart::after { left: -7.5px; top: 0; }
+    @keyframes float {
+      0%   { transform: translateY(100vh) rotate(45deg); opacity: 0; }
+      50%  { opacity: 1; }
+      100% { transform: translateY(-10vh) rotate(45deg); opacity: 0; }
+    }
+    .page:nth-child(1) { background: linear-gradient(135deg, #ff9a9e, #fad0c4); }
+    .page:nth-child(2) { background-color: #ffc1cc; }
+    .page:nth-child(3) { background-color: #ffe4b5; }
+    .page:nth-child(4) { background-color: #b0e0e6; }
+    .page:nth-child(5) { background-color: #d8bfd8; }
+    .page:nth-child(6) { background-color: #b0e0e6; }
+    .page:nth-child(7) { background-color: #d8bfd8; }
+
+    /* Cover page image adjustment */
+    .page:first-child .image-row img {
+      width: 85%;
+      max-height: 60vh;
+      object-fit: cover;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(255,255,255,0.5);
+    }
+    .page:first-child .image-row {
+      justify-content: center;
+    }
+    .page:first-child .page-content {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
+    .cover-title {
+      font-size: 3.6em;font: 5em Edwardian Script ITC;;
+      color: white;
+      text-shadow: 0 0 20px #f3f1f1, 0 0 30px #ff69b4;
+      animation: glow 3s ease-in-out infinite alternate;
+      margin-top: 1vh;
+    }
+    .cover-sub {
+      font-size: 2.0em;
+      color: #110104;
+      margin-top: 10px;
+    }
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff69b4; }
+      to   { text-shadow: 0 0 30px #ff69b4, 0 0 60px #ff69b4; }
+    }
+  </style>
+</head>
+<body>
+  <h1>💖 Our Colorful Journey 💖</h1>
+  <div class="click-hint">Click right to go forward, left to go back</div>
+
+  <button class="music-control" onclick="toggleMusic()">🔊 Play Music</button>
+
+  <div class="left-half" onclick="flipBackward()"></div>
+  <div class="right-half" onclick="flipForward()"></div>
+
+  <div class="spiral">
+    <div class="spiral-hole"></div>
+    <div class="spiral-hole"></div>
+    <div class="spiral-hole"></div>
+    <div class="spiral-hole"></div>
+    <div class="spiral-hole"></div>
+    <div class="spiral-hole"></div>
+  </div>
+
+  <div class="book">
+    <!-- Cover -->
+    <div class="page">
+      <div class="page-content">
+        <div class="cover-title">Happy Anniversary!</div>
+         <div class="image-row">
+          <img src="images/cover.jpg" alt="Cover Photo">
+        </div>
+        <div class="cover-sub">A journey of love, memories, and forever together 💕</div>
+      </div>
+    </div>
+
+    <!-- Page 1 -->
+    <div class="page">
+      <div class="page-content">
+        <h2>Wedding Day</h2>
+        <div class="image-row">
+          <img src="images/wedding1.jpg" alt="Wedding 1">
+          <img src="images/wedding2.jpg" alt="Wedding 2">
+          <img src="images/Wedding3.jpg" alt="Wedding 3" >
+          <img src="images/wedding4.jpg" alt="Wedding 4" >
+        </div>
+        <p>The day two beautiful souls became one. A day filled with dreams, smiles, and eternal love.</p>
+      </div>
+    </div>
+
+    <!-- Page 2 -->
+    <div class="page">
+      <div class="page-content">
+        <h2>Lovely sweet Memory</h2>
+        <div class="image-row">
+          <img src="images/memory.jpg" alt="Memory1">
+          <img src="images/memory2.jpg" alt="Memory 2">
+          <img src="images/memory3.jpg" alt="Memory 3">
+          <img src="images/memory4.jpg" alt="Memory 4">
+        </div>
+        <p>"Time flies, but memories last forever."</p>
+      </div>
+    </div>
+
+    <!-- Page 3 -->
+    <div class="page">
+      <div class="page-content">
+        <h2>the first child excitement</h2>
+        <div class="image-row">
+          <img src="images/fir chld1.jpg" alt="First child1">
+          <img src="images/fir chld.jpg" alt="First Child">
+          <img src="images/child1img1.jpg" alt="Vacation 3">
+        </div>
+        <p>"A new adventure has begun. Congratulations on your precious little one!"</p>
+      </div>
+    </div>
+
+    <!-- Page 4 -->
+    <div class="page">
+      <div class="page-content">
+        <h2>Now the next one</h2>
+        <div class="image-row">
+          <img src="images/sec child 2.jpg" alt="Second child 1">
+          <img src="images/sec child.jpg" alt="Second Child 2">
+        </div>
+        <p>From just us to all of us. Love multiplied, and joy overflowed in every corner of our lives.</p>
+        <p>welcoming the small creature 
+          <p>छोटे-छोटे सपने प्यारे,
+हँसी में छुपे हैं सुख सारे।
+मन का रंग है मुस्कान,
+खुशियों भरा ये जीवन गान।</p>
+        </p>
+      </div>
+    </div>
+
+    <!-- Page 5 -->
+    <div class="page">
+      <div class="page-content">
+        <h2>Moments with him</h2>
+        <div class="image-row">
+          <img src="images/child2img.jpg" alt="Second child 1">
+          <img src="images/child2img1.jpg" alt="Second Child 2">
+          <img src="images/child2img2.jpg" alt="Second Child 3">
+          <img src="images/child2img3.jpg" alt="Second Child 4">
+        </div>
+        <p>"Big brother/sister now has a forever friend. Congratulations on growing family!"</p>
+      </div>
+    </div>
+
+    <!-- Page 6 -->
+    <div class="page">
+      <div class="page-content">
+        <h2>Moments with bith the crazy ones</h2>
+        <div class="image-row">
+          <img src="images/funmoment.jpg" alt="fun moment">
+          <img src="images/fun moment2.jpg" alt="fun moment 2">
+          <img src="images/photo1.jpg" alt="Photo 1">
+        </div>
+        <p>endless merories were made and are yet more to make </p>
+      </div>
+    </div>
+    <!-- End Page -->
+<div class="page">
+  <div class="page-content">
+    <h2>💖 With All My Love 💖</h2>
+    <div class="image-row">
+      <img src=https://png.pngtree.com/png-vector/20240110/ourlarge/pngtree-cute-kawaii-valentine-couple-with-heart-png-image_11423942.png alt="Cute Sticker">
+    </div>
+      Dear Mom & Dad,<br><br>
+      From the very first step we took, you’ve been our guiding light, our constant support, and our source of endless love.<br><br>
+      Today, as you celebrate your beautiful journey together, we just want to say — we are the luckiest to be a part of your story.<br><br>
+      Happy Anniversary to the best parents in the world! 💕<br><br>
+      — With love, your children
+    </p>
+  </div>
+</div>
+</div>
+  <script>
+    for (let i = 0; i < 30; i++) {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = (6 + Math.random() * 4) + "s";
+      heart.style.opacity = Math.random();
+      document.body.appendChild(heart);
+    }
+
+    const pages = document.querySelectorAll('.page');
+    let current = 0;
+
+    function flipForward() {
+      if (current < pages.length) {
+        pages[current].classList.add('flipped');
+        pages[current].style.zIndex = pages.length - current;
+        current++;
+      }
+    }
+
+    function flipBackward() {
+      if (current > 0) {
+        current--;
+        pages[current].classList.remove('flipped');
+        pages[current].style.zIndex = pages.length - current;
+      }
+    }
+
+    const audio = document.getElementById("bg-music");
+    const btn = document.querySelector(".music-control");
+
+    function toggleMusic() {
+      if (audio.paused) {
+        audio.play();
+        btn.textContent = "🔇 Pause Music";
+      } else {
+        audio.pause();
+        btn.textContent = "🔊 Play Music";
+      }
+    }
+  </script>
+</body>
+</html>
